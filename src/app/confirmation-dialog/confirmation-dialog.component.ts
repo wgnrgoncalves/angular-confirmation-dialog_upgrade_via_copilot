@@ -1,32 +1,51 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-confirmation-dialog',
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './confirmation-dialog.component.html',
+  styleUrls: ['./confirmation-dialog.component.css']
 })
 export class ConfirmationDialogComponent implements OnInit {
 
-  @Input() title: string;
-  @Input() message: string;
-  @Input() btnOkText: string;
-  @Input() btnCancelText: string;
+  @Input() title: string = '';
+  @Input() message: string = '';
+  @Input() btnOkText: string = 'OK';
+  @Input() btnCancelText: string = 'Cancel';
+  
+  isVisible: boolean = false;
+  resolveCallback: ((value: boolean) => void) | null = null;
 
-  constructor(private activeModal: NgbActiveModal) { }
+  constructor() { }
 
   ngOnInit() {
   }
 
   public decline() {
-    this.activeModal.close(false);
+    if (this.resolveCallback) {
+      this.resolveCallback(false);
+      this.isVisible = false;
+    }
   }
 
   public accept() {
-    this.activeModal.close(true);
+    if (this.resolveCallback) {
+      this.resolveCallback(true);
+      this.isVisible = false;
+    }
   }
 
   public dismiss() {
-    this.activeModal.dismiss();
+    if (this.resolveCallback) {
+      this.resolveCallback(false);
+      this.isVisible = false;
+    }
   }
 
+  public show(callback: (value: boolean) => void) {
+    this.isVisible = true;
+    this.resolveCallback = callback;
+  }
 }

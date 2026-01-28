@@ -1,9 +1,12 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 import { ConfirmationDialogService } from './confirmation-dialog/confirmation-dialog.service';
 
 @Component({
   selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './app.component.html',
   styleUrls: [ './app.component.css' ]
 })
